@@ -4,11 +4,14 @@ Esse projeto conta com algumas decisões técnicas importantes. É uma aplicaç�
 Heavy Read (Leitura pesada), o padrão de acesso é esporádico, vamos utilizar
 Serveless com Java, compilação nativa (GraalVM) e Spring Boot.
 
-Modelagem de domínio
+Modelagem de domínio 
+
 ![img.png](img.png)
 
 Arquitetura AWS
+
 ![img_1.png](img_1.png)
 
 Contrato de API
+
 ![img_2.png](img_2.png)
