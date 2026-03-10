@@ -4,7 +4,7 @@
 codeuri = "C:\\Users\\Alyasaf Meireles\\Documents\\buildrun\\encurtador\\app"
 runtime = "java21"
 architecture = "x86_64"
-handler = "my.service.StreamLambdaHandler::handleRequest"
+handler = "com.github.shortlink.StreamLambdaHandler::handleRequest"
 manifest_hash = ""
 packagetype = "Zip"
 functions = ["MyServiceFunction"]

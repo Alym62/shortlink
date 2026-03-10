@@ -1,16 +1,15 @@
-package my.service;
+package com.github.shortlink;
 
+import com.github.shortlink.adapter.in.UsersController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
-
-import my.service.controller.PingController;
 
 
 @SpringBootApplication
 // We use direct @Import instead of @ComponentScan to speed up cold starts
 // @ComponentScan(basePackages = "my.service.controller")
-@Import({ PingController.class })
+@Import({UsersController.class})
 public class Application {
 
     public static void main(String[] args) {

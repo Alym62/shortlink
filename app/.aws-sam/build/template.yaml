@@ -8,7 +8,7 @@ Resources:
   MyServiceFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: my.service.StreamLambdaHandler::handleRequest
+      Handler: com.github.shortlink.StreamLambdaHandler::handleRequest
       Runtime: java21
       CodeUri: MyServiceFunction
       MemorySize: 512

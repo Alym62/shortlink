@@ -1,4 +1,4 @@
-package my.service;
+package com.github.shortlink;
 
 
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
