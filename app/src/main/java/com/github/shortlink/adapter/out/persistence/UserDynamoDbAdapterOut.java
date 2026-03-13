@@ -1,4 +1,4 @@
-package com.github.shortlink.core.port.out.persistence;
+package com.github.shortlink.adapter.out.persistence;
 
 import com.github.shortlink.core.domain.User;
 import com.github.shortlink.core.port.out.UserRepositoryOut;
