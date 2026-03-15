@@ -1,6 +1,7 @@
 package com.github.shortlink.adapter.out.persistence;
 
 import com.github.shortlink.core.domain.User;
+import com.github.shortlink.core.domain.annotations.DynamoDbTableName;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
@@ -8,6 +9,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@DynamoDbTableName(name = "tb_users")
 @DynamoDbBean
 public class UserPersistence {
     private UUID userId;

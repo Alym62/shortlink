@@ -1,4 +1,4 @@
-package com.github.shortlink.config;
+package com.github.shortlink.config.dynamo;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ public class DynamoDbConfig {
     public DynamoDbClient dynamoDbClient() {
         return DynamoDbClient.builder()
                 .endpointOverride(URI.create(uriDynamoDb))
-                .region(Region.SA_EAST_1)
+                .region(Region.US_EAST_1)
                 .build();
     }
 }
