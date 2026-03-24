@@ -1,3 +1,4 @@
 app/.aws-sam/**
 app/src/main/resources/app.key
 app/src/main/resources/app.pub
+app/infra/ti/volume

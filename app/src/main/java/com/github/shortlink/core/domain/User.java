@@ -11,10 +11,12 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public User() {}
+
     public User(String email, String password, String nickname) {
         this.userId = UUID.randomUUID();
         this.email = email;
-        this.password = password; // @TODO: Encode password
+        this.password = password;
         this.nickname = nickname;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();

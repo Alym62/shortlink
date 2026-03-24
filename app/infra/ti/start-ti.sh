@@ -9,7 +9,9 @@ aws --endpoint="http://localhost:4566" dynamodb create-table `
   --table-name "tb_users" `
   --attribute-definitions `
     "AttributeName=user_id,AttributeType=S" `
+    "AttributeName=email,AttributeType=S" `
   --key-schema `
     "AttributeName=user_id,KeyType=HASH" `
   --provisioned-throughput `
-    "ReadCapacityUnits=5,WriteCapacityUnits=5"
+    "ReadCapacityUnits=5,WriteCapacityUnits=5" `
+  --global-secondary-indexes file://gsi.json

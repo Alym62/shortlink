@@ -1,10 +1,11 @@
 package com.github.shortlink.adapter.out.persistence;
 
-import com.github.shortlink.core.domain.User;
+import com.github.shortlink.core.commons.Constants;
 import com.github.shortlink.core.domain.annotations.DynamoDbTableName;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -32,6 +33,7 @@ public class UserPersistence {
         this.userId = userId;
     }
 
+    @DynamoDbSecondaryPartitionKey(indexNames = Constants.EMAIL_INDEX)
     @DynamoDbAttribute("email")
     public String getEmail() {
         return email;
@@ -75,17 +77,5 @@ public class UserPersistence {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public static UserPersistence fromDomain(User user) {
-        final UserPersistence userPersistence = new UserPersistence();
-        userPersistence.setUserId(user.getUserId());
-        userPersistence.setEmail(user.getEmail());
-        userPersistence.setPassword(user.getPassword());
-        userPersistence.setNickname(user.getNickname());
-        userPersistence.setCreatedAt(user.getCreatedAt());
-        userPersistence.setUpdatedAt(user.getUpdatedAt());
-
-        return userPersistence;
     }
 }

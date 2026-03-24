@@ -1,0 +1,8 @@
+[
+  {
+    "IndexName": "email-index",
+    "KeySchema": [{ "AttributeName": "email", "KeyType": "HASH" }],
+    "Projection": { "ProjectionType": "KEYS_ONLY" },
+    "ProvisionedThroughput": { "ReadCapacityUnits": 5, "WriteCapacityUnits": 5 }
+  }
+]
