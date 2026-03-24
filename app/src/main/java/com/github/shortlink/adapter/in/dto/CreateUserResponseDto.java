@@ -8,7 +8,4 @@ public record CreateUserResponseDto(
         String userId,
         LocalDateTime createdAt
 ) {
-    public static CreateUserResponseDto fromDomain(User user) {
-        return new CreateUserResponseDto(user.getUserId().toString(), user.getCreatedAt());
-    }
 }
