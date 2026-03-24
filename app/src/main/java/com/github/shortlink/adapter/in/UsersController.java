@@ -5,6 +5,7 @@ import com.github.shortlink.adapter.in.dto.CreateUserResponseDto;
 import com.github.shortlink.adapter.out.mappers.UserMapper;
 import com.github.shortlink.core.domain.User;
 import com.github.shortlink.core.port.in.CreateUserPortIn;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ public class UsersController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateUserResponseDto> createUser(@RequestBody CreateUserRequestDto requestDto) {
+    public ResponseEntity<CreateUserResponseDto> createUser(@RequestBody @Valid CreateUserRequestDto requestDto) {
         final User userCreated = createUserPortIn.execute(UserMapper.dtoRequestToDomain(requestDto));
         final CreateUserResponseDto body = UserMapper.dtoResponseFromDomain(userCreated);
 
