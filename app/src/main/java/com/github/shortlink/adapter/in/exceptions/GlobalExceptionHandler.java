@@ -22,6 +22,16 @@ public class GlobalExceptionHandler {
         return exception.toProblemDetail();
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ProblemDetail userNotFoundException(UserNotFoundException exception) {
+        return exception.toProblemDetail();
+    }
+
+    @ExceptionHandler(LoginException.class)
+    public ProblemDetail loginException(LoginException exception) {
+        return exception.toProblemDetail();
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail methodArgumentNotValidException(MethodArgumentNotValidException exception) {
         final Map<String, String> fieldErrors = new HashMap<>();

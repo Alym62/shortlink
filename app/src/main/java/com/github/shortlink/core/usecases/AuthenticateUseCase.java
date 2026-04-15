@@ -2,30 +2,47 @@ package com.github.shortlink.core.usecases;
 
 import com.github.shortlink.adapter.in.dto.LoginRequestDto;
 import com.github.shortlink.adapter.in.dto.LoginResponseDto;
+import com.github.shortlink.adapter.in.exceptions.LoginException;
+import com.github.shortlink.adapter.in.exceptions.UserNotFoundException;
+import com.github.shortlink.core.domain.User;
 import com.github.shortlink.core.port.in.AuthenticatePortIn;
+import com.github.shortlink.core.port.in.JwtPortIn;
 import com.github.shortlink.core.port.out.UserRepositoryOut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticateUseCase implements AuthenticatePortIn {
-    private final UserRepositoryOut userRepositoryOut;
-    private final JwtEncoder jwtEncoder;
-    private final BCryptPasswordEncoder passwordEncoder;
+    @Value("${jwt.expires.in}")
+    private Long expiresIn;
 
-    public AuthenticateUseCase(UserRepositoryOut userRepositoryOut, JwtEncoder jwtEncoder, BCryptPasswordEncoder passwordEncoder) {
+    private final UserRepositoryOut userRepositoryOut;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtPortIn jwtPortIn;
+
+    public AuthenticateUseCase(UserRepositoryOut userRepositoryOut, BCryptPasswordEncoder passwordEncoder, JwtPortIn jwtPortIn) {
         this.userRepositoryOut = userRepositoryOut;
-        this.jwtEncoder = jwtEncoder;
         this.passwordEncoder = passwordEncoder;
+        this.jwtPortIn = jwtPortIn;
     }
 
     @Override
     public LoginResponseDto execute(LoginRequestDto dto) {
-        // Buscar o id do usuario
-        // Buscar usuario com base no id
-        // gera o jwt token
-        // se a senha for invalida retorna o erro com as credenciais invalidas
-        return null;
+        final User user = userRepositoryOut.findByEmail(dto.email())
+                .orElseThrow(() -> new UserNotFoundException("Usuário com email: " + dto.email() + " não encontrado "));
+        validatePassword(dto.password(), user.getPassword());
+
+        final String jwt = jwtPortIn.execute(user.getUserId(), user.getEmail());
+
+        return new LoginResponseDto(jwt, expiresIn);
+    }
+
+    private void validatePassword(String passwordRequest, String userPassword) {
+        final boolean passwordValid = passwordEncoder.matches(passwordRequest, userPassword);
+
+        if (!passwordValid) {
+            throw new LoginException("Aconteceu um erro ao tentar validar o email ou senha do usuário.");
+        }
     }
 }
