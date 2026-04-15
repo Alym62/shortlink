@@ -2,7 +2,7 @@
   {
     "IndexName": "email-index",
     "KeySchema": [{ "AttributeName": "email", "KeyType": "HASH" }],
-    "Projection": { "ProjectionType": "KEYS_ONLY" },
+    "Projection": { "ProjectionType": "INCLUDE", "NonKeyAttributes": ["user_id", "password"] },
     "ProvisionedThroughput": { "ReadCapacityUnits": 5, "WriteCapacityUnits": 5 }
   }
 ]
