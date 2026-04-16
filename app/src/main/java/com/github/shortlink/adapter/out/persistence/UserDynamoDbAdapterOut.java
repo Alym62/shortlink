@@ -6,12 +6,18 @@ import com.github.shortlink.core.domain.User;
 import com.github.shortlink.core.port.out.UserRepositoryOut;
 import io.awspring.cloud.dynamodb.DynamoDbTemplate;
 import org.springframework.stereotype.Component;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.Expression;
+import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.enhanced.dynamodb.model.DeleteItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class UserDynamoDbAdapterOut implements UserRepositoryOut {
@@ -42,5 +48,22 @@ public class UserDynamoDbAdapterOut implements UserRepositoryOut {
                 .flatMap(userPersistencePage -> userPersistencePage.items().stream())
                 .map(UserMapper::persistenceToDomain)
                 .findFirst();
+    }
+
+    @Override
+    public void deleteById(UUID userId) {
+        final Key key = Key.builder()
+                .partitionValue(userId.toString())
+                .build();
+        dynamoDbTemplate.delete(key, UserPersistence.class);
+    }
+
+    @Override
+    public boolean existsUserById(UUID userId) {
+        final Key key = Key.builder()
+                .partitionValue(userId.toString())
+                .build();
+
+        return dynamoDbTemplate.load(key, UserPersistence.class) != null;
     }
 }
