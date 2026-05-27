@@ -1,0 +1,8 @@
+[
+  {
+    "IndexName": "fk-user-index",
+    "KeySchema": [{ "AttributeName": "user_id", "KeyType": "HASH" }, { "AttributeName": "link_id", "KeyType": "RANGE" }],
+    "Projection": { "ProjectionType": "ALL" },
+    "ProvisionedThroughput": { "ReadCapacityUnits": 5, "WriteCapacityUnits": 5 }
+  }
+]
