@@ -22,6 +22,11 @@ public class GlobalExceptionHandler {
         return exception.toProblemDetail();
     }
 
+    @ExceptionHandler(LinkAlreadyExistsException.class)
+    public ProblemDetail linkAlreadyException(LinkAlreadyExistsException exception) {
+        return exception.toProblemDetail();
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ProblemDetail userNotFoundException(UserNotFoundException exception) {
         return exception.toProblemDetail();
