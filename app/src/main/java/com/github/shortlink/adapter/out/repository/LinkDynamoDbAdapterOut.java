@@ -8,6 +8,8 @@ import io.awspring.cloud.dynamodb.DynamoDbTemplate;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 
+import java.util.Optional;
+
 @Component
 public class LinkDynamoDbAdapterOut implements LinkRepositoryOut {
     private final DynamoDbTemplate dynamoDbTemplate;
@@ -31,5 +33,15 @@ public class LinkDynamoDbAdapterOut implements LinkRepositoryOut {
                 .build();
 
         return dynamoDbTemplate.load(key, LinkPersistence.class) != null;
+    }
+
+    @Override
+    public Optional<Link> findById(String slug) {
+        final Key key = Key.builder()
+                .partitionValue(slug)
+                .build();
+
+        final Link link = LinkMapper.persistenceToDomain(dynamoDbTemplate.load(key, LinkPersistence.class));
+        return Optional.ofNullable(link);
     }
 }

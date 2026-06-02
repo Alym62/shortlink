@@ -32,8 +32,18 @@ public class GlobalExceptionHandler {
         return exception.toProblemDetail();
     }
 
+    @ExceptionHandler(LinkNotFoundException.class)
+    public ProblemDetail linkNotFoundException(LinkNotFoundException exception) {
+        return exception.toProblemDetail();
+    }
+
     @ExceptionHandler(LoginException.class)
     public ProblemDetail loginException(LoginException exception) {
+        return exception.toProblemDetail();
+    }
+
+    @ExceptionHandler(ShortLinkBusinessException.class)
+    public ProblemDetail shortLinkBusinessException(ShortLinkBusinessException exception) {
         return exception.toProblemDetail();
     }
 
