@@ -5,6 +5,7 @@ import com.github.shortlink.core.commons.Constants;
 import com.github.shortlink.core.domain.Link;
 import com.github.shortlink.core.domain.vo.UtmTags;
 import com.github.shortlink.core.port.in.RedirectLinkPortIn;
+import com.github.shortlink.core.port.out.LinkMessagingOut;
 import com.github.shortlink.core.port.out.LinkRepositoryOut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,11 @@ public class RedirectLinkUseCase implements RedirectLinkPortIn {
     private static final Logger logger = LoggerFactory.getLogger(RedirectLinkUseCase.class);
 
     private final LinkRepositoryOut linkRepositoryOut;
+    private final LinkMessagingOut linkMessagingOut;
 
-    public RedirectLinkUseCase(LinkRepositoryOut linkRepositoryOut) {
+    public RedirectLinkUseCase(LinkRepositoryOut linkRepositoryOut, LinkMessagingOut linkMessagingOut) {
         this.linkRepositoryOut = linkRepositoryOut;
+        this.linkMessagingOut = linkMessagingOut;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class RedirectLinkUseCase implements RedirectLinkPortIn {
                 .orElseThrow(() -> new LinkNotFoundException("Não foi possível acessar esse link. Tente novamente mais tarde."));
 
         // @TODO: publicar no SQS (AWS) para fazer a parte de analiticos
+        linkMessagingOut.publishUpdateLinkCount(linkForRedirect);
         return generateFullUrlWithParameters(linkForRedirect);
     }
 

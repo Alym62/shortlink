@@ -31,3 +31,14 @@ aws --endpoint="http://localhost:4566" dynamodb create-table \
   --provisioned-throughput \
       ReadCapacityUnits=5,WriteCapacityUnits=5 \
   --global-secondary-indexes file://gsi-tb-links.json
+
+# Create queue in SQS
+echo "Create queue in SQS"
+aws --endpoint="http://localhost:4566" sqs create-queue \
+  --region "us-east-1" \
+  --queue-name update-count-link.fifo \
+  --attribute '{
+    "FifoQueue": "true",
+    "ContentBasedDeduplication": "true",
+    "MessageRetentionPeriod": "1209600"
+  }'

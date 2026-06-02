@@ -10,7 +10,7 @@ import java.net.URI;
 
 @Configuration
 public class DynamoDbConfig {
-    @Value("${dynamodb.uri}")
+    @Value("${aws.uri}")
     private String uriDynamoDb;
 
     @Bean
