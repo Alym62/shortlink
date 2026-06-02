@@ -21,8 +21,7 @@ public final class LinkMapper {
     }
 
     public static CreateLinkResponseDto dtoResponseFromDomain(String urlShort) {
-        // @TODO: Ajustar dominio
-        return new CreateLinkResponseDto("http://localhost:3000/%s".formatted(urlShort));
+        return new CreateLinkResponseDto(urlShort);
     }
 
     public static LinkPersistence persistenceFromDomain(Link link) {

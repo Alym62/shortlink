@@ -7,7 +7,6 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 @DynamoDbBean
 @DynamoDbTableName(name = "tb_links")
 public class LinkPersistence {

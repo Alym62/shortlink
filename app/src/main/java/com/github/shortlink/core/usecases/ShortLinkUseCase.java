@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ShortLinkUseCase implements ShortLinkPortIn {
-    private static final Logger logger = LoggerFactory.getLogger(CreateUserUseCase.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShortLinkUseCase.class);
 
     private final LinkRepositoryOut linkRepositoryOut;
 
