@@ -1,4 +1,4 @@
-package com.github.shortlink.config.dynamo;
+package com.github.shortlink.config.aws.dynamo;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

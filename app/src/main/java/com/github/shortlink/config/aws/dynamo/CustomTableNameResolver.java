@@ -1,4 +1,4 @@
-package com.github.shortlink.config.dynamo;
+package com.github.shortlink.config.aws.dynamo;
 
 import com.github.shortlink.core.domain.annotations.DynamoDbTableName;
 import io.awspring.cloud.dynamodb.DynamoDbTableNameResolver;

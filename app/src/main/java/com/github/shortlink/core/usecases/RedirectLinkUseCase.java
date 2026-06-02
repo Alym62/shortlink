@@ -29,6 +29,7 @@ public class RedirectLinkUseCase implements RedirectLinkPortIn {
         final Link linkForRedirect = linkRepositoryOut.findById(linkId)
                 .orElseThrow(() -> new LinkNotFoundException("Não foi possível acessar esse link. Tente novamente mais tarde."));
 
+        // @TODO: publicar no SQS (AWS) para fazer a parte de analiticos
         return generateFullUrlWithParameters(linkForRedirect);
     }
 
