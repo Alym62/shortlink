@@ -5,6 +5,7 @@ import com.github.shortlink.adapter.in.dto.CreateLinkResponseDto;
 import com.github.shortlink.adapter.out.persistence.LinkPersistence;
 import com.github.shortlink.core.domain.Link;
 import com.github.shortlink.core.domain.vo.UtmTags;
+import org.springframework.util.ObjectUtils;
 
 import java.util.UUID;
 
@@ -14,7 +15,9 @@ public final class LinkMapper {
 
     public static Link dtoRequestToDomain(CreateLinkRequestDto requestDto, UUID userId) {
         final Link domain = new Link(requestDto.linkSlug(), requestDto.urlOriginal(), requestDto.expirationDate());
-        domain.setUtmTags(requestDto.utm());
+        if (ObjectUtils.isEmpty(requestDto.utm())) {
+            domain.setUtmTags(requestDto.utm());
+        }
         domain.setUserId(userId);
 
         return domain;
@@ -41,6 +44,10 @@ public final class LinkMapper {
     }
 
     public static Link persistenceToDomain(LinkPersistence persistence) {
+        if (ObjectUtils.isEmpty(persistence)) {
+            return null;
+        }
+
         final UtmTags utmTags = new UtmTags(persistence.getUtmSource(), persistence.getUtmMedium(),
                 persistence.getUtmCampaign(), persistence.getUtmContent());
         final Link domain = new Link();
