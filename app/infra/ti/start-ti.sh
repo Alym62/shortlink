@@ -29,8 +29,22 @@ aws --endpoint="http://localhost:4566" dynamodb create-table \
   --key-schema \
     "AttributeName=link_id,KeyType=HASH" \
   --provisioned-throughput \
-      ReadCapacityUnits=5,WriteCapacityUnits=5 \
+    "ReadCapacityUnits=5,WriteCapacityUnits=5" \
   --global-secondary-indexes file://gsi-tb-links.json
+
+# Create table link analytics
+echo "Create table link analytics"
+aws --endpoint="http://localhost:4566" dynamodb create-table \
+  --region "us-east-1" \
+  --table-name "tb_links_analytics" \
+  --attribute-definitions \
+    "AttributeName=link_id,AttributeType=S" \
+    "AttributeName=date,AttributeType=S" \
+  --key-schema \
+    "AttributeName=link_id,KeyType=HASH" \
+    "AttributeName=date,KeyType=RANGE" \
+  --provisioned-throughput \
+    "ReadCapacityUnits=5,WriteCapacityUnits=5"
 
 # Create queue in SQS
 echo "Create queue in SQS"

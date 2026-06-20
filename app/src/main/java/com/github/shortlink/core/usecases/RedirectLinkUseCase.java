@@ -5,6 +5,7 @@ import com.github.shortlink.core.commons.Constants;
 import com.github.shortlink.core.domain.Link;
 import com.github.shortlink.core.domain.vo.UtmTags;
 import com.github.shortlink.core.port.in.RedirectLinkPortIn;
+import com.github.shortlink.core.port.out.LinkAnalyticsRepositoryOut;
 import com.github.shortlink.core.port.out.LinkMessagingOut;
 import com.github.shortlink.core.port.out.LinkRepositoryOut;
 import org.slf4j.Logger;
@@ -18,10 +19,13 @@ public class RedirectLinkUseCase implements RedirectLinkPortIn {
     private static final Logger logger = LoggerFactory.getLogger(RedirectLinkUseCase.class);
 
     private final LinkRepositoryOut linkRepositoryOut;
+    private final LinkAnalyticsRepositoryOut linkAnalyticsRepositoryOut;
     private final LinkMessagingOut linkMessagingOut;
 
-    public RedirectLinkUseCase(LinkRepositoryOut linkRepositoryOut, LinkMessagingOut linkMessagingOut) {
+    public RedirectLinkUseCase(LinkRepositoryOut linkRepositoryOut, LinkAnalyticsRepositoryOut linkAnalyticsRepositoryOut,
+                               LinkMessagingOut linkMessagingOut) {
         this.linkRepositoryOut = linkRepositoryOut;
+        this.linkAnalyticsRepositoryOut = linkAnalyticsRepositoryOut;
         this.linkMessagingOut = linkMessagingOut;
     }
 
@@ -32,8 +36,8 @@ public class RedirectLinkUseCase implements RedirectLinkPortIn {
         final Link linkForRedirect = linkRepositoryOut.findById(linkId)
                 .orElseThrow(() -> new LinkNotFoundException("Não foi possível acessar esse link. Tente novamente mais tarde."));
 
-        // @TODO: publicar no SQS (AWS) para fazer a parte de analiticos
-        linkMessagingOut.publishUpdateLinkCount(linkForRedirect);
+        // @TODO: Avaliar abrir outra thread para essa operação.
+        linkAnalyticsRepositoryOut.updateClickCount(linkForRedirect);
         return generateFullUrlWithParameters(linkForRedirect);
     }
 

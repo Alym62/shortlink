@@ -15,7 +15,7 @@ public final class LinkMapper {
 
     public static Link dtoRequestToDomain(CreateLinkRequestDto requestDto, UUID userId) {
         final Link domain = new Link(requestDto.linkSlug(), requestDto.urlOriginal(), requestDto.expirationDate());
-        if (ObjectUtils.isEmpty(requestDto.utm())) {
+        if (!ObjectUtils.isEmpty(requestDto.utm())) {
             domain.setUtmTags(requestDto.utm());
         }
         domain.setUserId(userId);
@@ -31,10 +31,12 @@ public final class LinkMapper {
         final LinkPersistence linkPersistence = new LinkPersistence();
         linkPersistence.setLinkId(link.getLinkId());
         linkPersistence.setUrlOriginal(link.getUrlOriginal());
-        linkPersistence.setUtmSource(link.getUtmTags().utmSource());
-        linkPersistence.setUtmCampaign(link.getUtmTags().utmCampaign());
-        linkPersistence.setUtmMedium(link.getUtmTags().utmMedium());
-        linkPersistence.setUtmContent(link.getUtmTags().utmContent());
+        if (!ObjectUtils.isEmpty(link.getUtmTags())) {
+            linkPersistence.setUtmSource(link.getUtmTags().utmSource());
+            linkPersistence.setUtmCampaign(link.getUtmTags().utmCampaign());
+            linkPersistence.setUtmMedium(link.getUtmTags().utmMedium());
+            linkPersistence.setUtmContent(link.getUtmTags().utmContent());
+        }
         linkPersistence.setUserId(link.getUserId());
         linkPersistence.setExpirationDateTime(link.getExpirationDateTime());
         linkPersistence.setCreatedAt(link.getCreatedAt());
